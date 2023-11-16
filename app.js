@@ -143,6 +143,13 @@ function editNote(noteId, noteTittle, noteDescription) {
 
 function showSetting(el) {
     el.parentElement.classList.add('show')
+
+    $.addEventListener('click', event => {
+
+        if (event.target !== el && event.target.tagName !== 'i') {
+            el.parentElement.classList.remove('show')
+        }
+    })
 }
 
 function getLocalStorageNotes() {
@@ -168,7 +175,7 @@ window.addEventListener('load', () => {
     generateNotes(notes)
 })
 
-popupClose.addEventListener('click', () => { closePopUp()})
+popupClose.addEventListener('click', () => { closePopUp() })
 
 window.addEventListener('keyup', (event) => {
     if (event.key === 'Escape') {
