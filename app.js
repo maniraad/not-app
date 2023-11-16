@@ -9,39 +9,81 @@ const addBox = $.querySelector('.add-box'),
     textareaElem = $.querySelector('textarea'),
     buttonElem = $.querySelector('button');
 
+let isUpdate = false;
+let updateID = null;
+
 let notes = []
 
-let isUpdate = false;
+addBox.addEventListener('click', showModal)
 
+function showModal(noteTittle, noteDescription) {
 
-addBox.addEventListener('click', () => {
     if (isUpdate) {
         popupTitle.innerHTML = 'Update note'
         buttonElem.innerHTML = 'Update Note'
+        inputElem.value = noteTittle
+        textareaElem.value = noteDescription
+
     } else {
         popupTitle.innerHTML = 'Add a new note'
         buttonElem.innerHTML = 'Add Note'
     }
     popupBox.classList.add('show');
     inputElem.focus()
-});
+}
 
 function closePopUp() {
     popupBox.classList.remove('show');
 }
 
 function newNote() {
-    let newNote = {
-        tittle: inputElem.value,
-        description: textareaElem.value,
-        date: getNowDate()
-    }
 
-    notes.push(newNote)
-    setLocalStorageNotes(notes)
-    generateNotes(notes)
-    clearInputs()
-    closePopUp()
+    if (isUpdate) {
+
+        let allNotes = getLocalStorageNotes()
+
+        allNotes.some((note, index) => {
+            if (index === updateID) {
+                note.tittle = inputElem.value
+                note.description = textareaElem.value
+            }
+        })
+
+        setLocalStorageNotes(allNotes)
+        generateNotes(allNotes)
+        clearInputs()
+        closePopUp()
+
+        isUpdate = false
+    } else {
+        let newNote = {
+            tittle: inputElem.value,
+            description: textareaElem.value,
+            date: getNowDate()
+        }
+
+        notes.push(newNote)
+        setLocalStorageNotes(notes)
+        generateNotes(notes)
+        clearInputs()
+        closePopUp()
+    }
+}
+
+function getNowDate() {
+    let now = new Date()
+    const months = ["January", "February", "March", "April", "May", "June", "July",
+        "August", "September", "October", "November", "December"];
+
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+
+    let nowDay = now.getDay()
+    let nowMonth = now.getMonth()
+    let nowYear = now.getFullYear()
+    let dayOfMonth = now.getDate()
+
+    return `${months[nowMonth]} ${dayOfMonth}, ${nowYear} (${days[nowDay]})`
 }
 
 function clearInputs() {
@@ -65,7 +107,7 @@ function generateNotes(notes) {
                 <div class="settings">
                     <i class="uil uil-ellipsis-h" onclick="showSetting(this)"></i>
                     <ul class="menu">
-                        <li onclick="editNote(0, '', '')">
+                        <li onclick="editNote(${index},'${note.tittle}','${note.description}')">
                             <i class="uil uil-pen"></i>Edit
                         </li>
                         <li onclick="removeNote(${index})">
@@ -91,6 +133,14 @@ function removeNote(noteIndex) {
     }
 }
 
+function editNote(noteId, noteTittle, noteDescription) {
+
+    isUpdate = true
+    showModal(noteTittle, noteDescription)
+    updateID = noteId
+
+}
+
 function showSetting(el) {
     el.parentElement.classList.add('show')
 }
@@ -111,22 +161,6 @@ function setLocalStorageNotes(notes) {
     localStorage.setItem('notes', JSON.stringify(notes))
 }
 
-function getNowDate() {
-    let now = new Date()
-    const months = ["January", "February", "March", "April", "May", "June", "July",
-        "August", "September", "October", "November", "December"];
-
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-
-    let nowDay = now.getDay()
-    let nowMonth = now.getMonth()
-    let nowYear = now.getFullYear()
-    let dayOfMonth = now.getDate()
-
-    return `${months[nowMonth]} ${dayOfMonth}, ${nowYear} (${days[nowDay]})`
-}
-
 buttonElem.addEventListener('click', () => newNote())
 
 window.addEventListener('load', () => {
@@ -134,13 +168,15 @@ window.addEventListener('load', () => {
     generateNotes(notes)
 })
 
-popupClose.addEventListener('click', () => { closePopUp() })
+popupClose.addEventListener('click', () => { closePopUp()})
 
 window.addEventListener('keyup', (event) => {
     if (event.key === 'Escape') {
         closePopUp()
     }
-    if (event.key === 'Enter') {
-        newNote()
+    if (!showModal) {
+        if (event.key === 'Enter') {
+            newNote()
+        }
     }
 })
