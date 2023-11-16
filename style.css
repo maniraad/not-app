@@ -17,10 +17,12 @@ html {
   font-family: 'Poppins', sans-serif;
 }
 
-.logo{
+.logo {
   text-align: center;
   margin: 1rem;
   color: var(--primary-color);
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 25px;
 }
 aside{
   margin: 50px;
