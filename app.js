@@ -6,6 +6,8 @@ const addBox = $.querySelector('.add-box'),
     popupClose = $.querySelector('header i'),
     inputElem = $.querySelector('input'),
     asideElem = $.querySelector('aside'),
+    modal = $.querySelector('.modal'),
+    modalBtns = $.querySelectorAll('.modal__link'),
     textareaElem = $.querySelector('textarea'),
     buttonElem = $.querySelector('button');
 
@@ -123,14 +125,25 @@ function generateNotes(notes) {
 
 function removeNote(noteIndex) {
 
-    let deleted = confirm('Are you sure to delete note?!')
-    if (deleted) {
-        let selectedNote = getLocalStorageNotes()
+    modal.classList.add('open')
+    modalBtns.forEach(modalBtn => {
+        modalBtn.addEventListener('click', event => {
+            if (event.target.dataset.link === 'true') {
 
-        selectedNote.splice(noteIndex, 1)
-        setLocalStorageNotes(selectedNote)
-        generateNotes(selectedNote)
-    }
+                let selectedNote = getLocalStorageNotes()
+
+                selectedNote.splice(noteIndex, 1)
+                setLocalStorageNotes(selectedNote)
+                generateNotes(selectedNote)
+
+                modal.classList.remove('open')
+            } else {
+
+                modal.classList.remove('open')
+            }
+        })
+    })
+
 }
 
 function editNote(noteId, noteTittle, noteDescription) {
