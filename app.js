@@ -34,7 +34,7 @@ function newNote() {
     let newNote = {
         tittle: inputElem.value,
         description: textareaElem.value,
-        date: 'November 16, 2023'
+        date: getNowDate()
     }
 
     notes.push(newNote)
@@ -53,7 +53,7 @@ function generateNotes(notes) {
 
     $.querySelectorAll('.note').forEach(note => { note.remove() })
 
-    notes.forEach(note => {
+    notes.forEach((note, index) => {
         asideElem.insertAdjacentHTML("beforeend", `
         <li class="note">
             <div class="details">
@@ -68,7 +68,7 @@ function generateNotes(notes) {
                         <li onclick="editNote(0, '', '')">
                             <i class="uil uil-pen"></i>Edit
                         </li>
-                        <li onclick="removeNote(0)">
+                        <li onclick="removeNote(${index})">
                             <i class="uil uil-trash"></i>Delete
                         </li>
                     </ul>
@@ -79,12 +79,21 @@ function generateNotes(notes) {
     });
 }
 
-function showSetting(el) {
-    el.parentElement.classList.add('show')
-    console.log(el.parentElement);
+function removeNote(noteIndex) {
+
+    let deleted = confirm('Are you sure to delete note?!')
+    if (deleted) {
+        let selectedNote = getLocalStorageNotes()
+
+        selectedNote.splice(noteIndex, 1)
+        setLocalStorageNotes(selectedNote)
+        generateNotes(selectedNote)
+    }
 }
 
-
+function showSetting(el) {
+    el.parentElement.classList.add('show')
+}
 
 function getLocalStorageNotes() {
     let localStorageNotes = localStorage.getItem('notes')
@@ -100,6 +109,22 @@ function getLocalStorageNotes() {
 
 function setLocalStorageNotes(notes) {
     localStorage.setItem('notes', JSON.stringify(notes))
+}
+
+function getNowDate() {
+    let now = new Date()
+    const months = ["January", "February", "March", "April", "May", "June", "July",
+        "August", "September", "October", "November", "December"];
+
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+
+    let nowDay = now.getDay()
+    let nowMonth = now.getMonth()
+    let nowYear = now.getFullYear()
+    let dayOfMonth = now.getDate()
+
+    return `${months[nowMonth]} ${dayOfMonth}, ${nowYear} (${days[nowDay]})`
 }
 
 buttonElem.addEventListener('click', () => newNote())
