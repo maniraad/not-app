@@ -124,25 +124,37 @@ function generateNotes(notes) {
 }
 
 function removeNote(noteIndex) {
+    // modal.classList.add('open')
 
-    modal.classList.add('open')
-    modalBtns.forEach(modalBtn => {
-        modalBtn.addEventListener('click', event => {
-            if (event.target.dataset.link === 'true') {
+    // modalBtns.forEach(modalBtn => {
 
-                let selectedNote = getLocalStorageNotes()
+    //     modalBtn.addEventListener('click', (event) => {
 
-                selectedNote.splice(noteIndex, 1)
-                setLocalStorageNotes(selectedNote)
-                generateNotes(selectedNote)
+    //         if (event.target.dataset.link === 'true') {
 
-                modal.classList.remove('open')
-            } else {
+    //             let newNotes = getLocalStorageNotes()
 
-                modal.classList.remove('open')
-            }
-        })
-    })
+    //             newNotes.splice(noteIndex, 1)
+    //             setLocalStorageNotes(newNotes)
+    //             generateNotes(newNotes)
+
+    //             modal.classList.remove('open')
+    //         } else {
+
+    //             modal.classList.remove('open')
+    //         }
+    //     })
+    // })
+
+    let deleted = confirm('Are you sure to delete note?!')
+
+    if (deleted) {
+        let newNotes = getLocalStorageNotes()
+
+        newNotes.splice(noteIndex, 1)
+        setLocalStorageNotes(newNotes)
+        generateNotes(newNotes)
+    }
 
 }
 

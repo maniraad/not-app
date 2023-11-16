@@ -15,7 +15,10 @@ html {
 :root {
   --primary-color: #219ebc
 }
-
+body{
+  background: linear-gradient(to bottom right,#2a9d8f,#264653);
+  height: 100vh;
+}
 *,
 *:before,
 *:after {
@@ -28,8 +31,8 @@ html {
 .logo {
   text-align: center;
   margin: 1rem;
-  color: var(--primary-color);
-  border-bottom: 2px solid var(--primary-color);
+  color: #eee;
+  border-bottom: 2px solid #eee;
   padding-bottom: 25px;
   font-family: 'Poppins-Bold';
   font-size: 45px;
@@ -294,19 +297,19 @@ form button {
   cursor: pointer;
   font-size: 17px;
   border-radius: 4px;
-  background: #6A93F8;
+  background: #3c6272;
 }
 
 .modal {
   width: 340px;
   height: 125px;
-  border-radius: 15px;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 16px;
   justify-content: space-between;
-  border: 2.5px solid var(--primary-color);
+  border: 2.5px solid #3c6272;
   position: absolute;
   top: 0;
   right: 0;
@@ -320,6 +323,10 @@ form button {
   -moz-transition: all ease 0.2s;
   -ms-transition: all ease 0.2s;
   -o-transition: all ease 0.2s;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
 }
 
 .modal.open {
@@ -345,11 +352,11 @@ form button {
   color: #000;
   font-family: inherit;
   font-weight: 500;
-  border: 1px solid var(--primary-color);
+  border: 1px solid #3c6272;
 }
 
 .modal__link--active {
-  background: var(--primary-color);
+  background: #3c6272;;
   color: #ffffff;
 }
 
