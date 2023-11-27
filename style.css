@@ -1,9 +1,4 @@
 @font-face {
-  font-family: "Poppins";
-  src: url("../fonts/Poppins-Regular.ttf") format("truetype");
-}
-
-@font-face {
   font-family: "Poppins-Bold";
   src: url("../fonts/Poppins-Bold.ttf") format("truetype");
 }
@@ -13,12 +8,15 @@ html {
 }
 
 :root {
-  --primary-color: #219ebc
+  --primary-color: #219ebc;
 }
-body{
-  background: linear-gradient(to bottom right,#2a9d8f,#264653);
+
+body {
+  background: linear-gradient(to bottom right, #2a9d8f, #264653);
   height: 100vh;
+  overflow: hidden;
 }
+
 *,
 *:before,
 *:after {
@@ -134,7 +132,7 @@ header,
 
 .note .bottom-content {
   padding-top: 10px;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #4a5d65;
 }
 
 .bottom-content span {
@@ -356,7 +354,8 @@ form button {
 }
 
 .modal__link--active {
-  background: #3c6272;;
+  background: #3c6272;
+  ;
   color: #ffffff;
 }
 

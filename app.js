@@ -124,38 +124,41 @@ function generateNotes(notes) {
 }
 
 function removeNote(noteIndex) {
-    // modal.classList.add('open')
+    Swal.fire({
+        text: 'Are you sure to delete note?!',
+        icon: 'question',
+        iconColor: '#2a9d8f',
+        position: "top",
+        backdrop: "rgb(0 0 0 / 35%);",
+        showConfirmButton: true,
+        showDenyButton: true,
+        confirmButtonText: 'OK',
+        denyButtonText: 'Cancel',
+        confirmButtonColor: '#2a9d8f',
+        denyButtonColor: '#ED2939',
 
-    // modalBtns.forEach(modalBtn => {
-
-    //     modalBtn.addEventListener('click', (event) => {
-
-    //         if (event.target.dataset.link === 'true') {
-
-    //             let newNotes = getLocalStorageNotes()
-
-    //             newNotes.splice(noteIndex, 1)
-    //             setLocalStorageNotes(newNotes)
-    //             generateNotes(newNotes)
-
-    //             modal.classList.remove('open')
-    //         } else {
-
-    //             modal.classList.remove('open')
-    //         }
-    //     })
-    // })
-
-    let deleted = confirm('Are you sure to delete note?!')
-
-    if (deleted) {
-        let newNotes = getLocalStorageNotes()
-
-        newNotes.splice(noteIndex, 1)
-        setLocalStorageNotes(newNotes)
-        generateNotes(newNotes)
-    }
-
+        showClass: {
+            popup: `
+              animate__animated
+              animate__fadeInDown
+              animate__faster
+            `
+        },
+        hideClass: {
+            popup: `
+              animate__animated
+              animate__fadeOutUp
+              animate__faster
+            `
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let newNotes = getLocalStorageNotes()
+            newNotes.splice(noteIndex, 1)
+            setLocalStorageNotes(newNotes)
+            generateNotes(newNotes)
+        }
+    });
 }
 
 function editNote(noteId, noteTittle, noteDescription) {
